@@ -14,10 +14,12 @@ using namespace Rcpp;
 //' samplev_cpp(c(0.1, 0.9), 5)
 //' @export
 // [[Rcpp::export]]
-SEXP samplev_cpp(SEXP probs, int m, int seed=1) {
-  Environment base_env("package:base");
-  Function set_seed = base_env["set.seed"];
-  set_seed(seed);
+SEXP samplev_cpp(SEXP probs, int m, int seed=NA_INTEGER) {
+  if (seed != NA_INTEGER) {
+    Environment base_env("package:base");
+    Function set_seed = base_env["set.seed"];
+    set_seed(seed);
+  }
   
   if (Rf_isMatrix(probs)) {
     NumericMatrix matProbs(probs);
